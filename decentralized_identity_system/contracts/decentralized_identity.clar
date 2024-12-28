@@ -1,30 +1,9 @@
-
 ;; title: decentralized_identity
-;; version:
-;; summary:
-;; description:
 
-;; traits
-;;
-
-;; token definitions
-;;
-
-;; constants
-;;
-
-;; data vars
-;;
-
-;; data maps
-;;
-
-;; public functions
-;;
-
-;; read only functions
-;;
-
-;; private functions
-;;
+(define-constant CONTRACT-OWNER tx-sender)
+(define-constant ERR-UNAUTHORIZED (err u1))
+(define-constant ERR-ALREADY-EXISTS (err u2))
+(define-constant ERR-NOT-FOUND (err u3))
+(define-constant ERR-INVALID-SIGNATURE (err u4))
+(define-constant ERR-MAX-CONNECTIONS (err u5))
 
