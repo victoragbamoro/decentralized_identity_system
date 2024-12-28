@@ -131,3 +131,21 @@
     (ok true)
   )
 )
+
+
+;; Read-only Functions
+(define-read-only (get-did-info (did principal))
+  (map-get? did-registry { did: did })
+)
+
+(define-read-only (get-verification-claim 
+  (did principal)
+  (claim-type (string-ascii 50))
+)
+  (map-get? verification-claims 
+    { 
+      did: did, 
+      claim-type: claim-type 
+    }
+  )
+)
