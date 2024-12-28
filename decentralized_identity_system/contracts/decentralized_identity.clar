@@ -32,3 +32,26 @@
     claim-details: (string-utf8 500)
   }
 )
+
+;; Update DID Document
+(define-public (update-did-document 
+  (new-did-doc (string-utf8 1000))
+)
+  (begin
+    (asserts! 
+      (is-some (map-get? did-registry { did: tx-sender })) 
+      ERR-NOT-FOUND
+    )
+    (map-set did-registry 
+      { did: tx-sender }
+      (merge 
+        (unwrap! 
+          (map-get? did-registry { did: tx-sender }) 
+          ERR-NOT-FOUND
+        )
+        { did-document: new-did-doc }
+      )
+    )
+    (ok true)
+  )
+)
