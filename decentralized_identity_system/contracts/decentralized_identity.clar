@@ -159,3 +159,23 @@
     (ok true)
   )
 )
+
+;; Admin Function to Verify DID
+(define-public (admin-verify-did
+  (did principal)
+)
+  (begin
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-UNAUTHORIZED)
+    (map-set did-registry 
+      { did: did }
+      (merge 
+        (unwrap! 
+          (map-get? did-registry { did: did }) 
+          ERR-NOT-FOUND
+        )
+        { verified: true }
+      )
+    )
+    (ok true)
+  )
+)
