@@ -81,3 +81,53 @@
     (ok true)
   )
 )
+
+;; Update Reputation Score
+(define-public (update-reputation-score
+  (points-to-add uint)
+)
+  (let 
+    ((current-did (unwrap! 
+      (map-get? did-registry { did: tx-sender }) 
+      ERR-NOT-FOUND
+    ))
+     (new-score (+ 
+       (get reputation-score current-did) 
+       points-to-add
+     ))
+    )
+    (map-set did-registry 
+      { did: tx-sender }
+      (merge current-did { reputation-score: new-score })
+    )
+    (ok new-score)
+  )
+)
+
+;; Add Social Connection
+(define-public (add-social-connection
+  (connection-did principal)
+)
+  (let 
+    ((current-did (unwrap! 
+      (map-get? did-registry { did: tx-sender }) 
+      ERR-NOT-FOUND
+    ))
+     (current-connections (get social-connections current-did))
+     (updated-connections 
+       (unwrap! 
+         (as-max-len? 
+           (append current-connections connection-did) 
+           u10
+         )
+         ERR-MAX-CONNECTIONS
+       )
+    )
+  )
+    (map-set did-registry 
+      { did: tx-sender }
+      (merge current-did { social-connections: updated-connections })
+    )
+    (ok true)
+  )
+)
