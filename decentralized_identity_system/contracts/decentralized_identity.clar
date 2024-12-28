@@ -55,3 +55,29 @@
     (ok true)
   )
 )
+
+;; Add Verification Claim
+(define-public (add-verification-claim
+  (claim-type (string-ascii 50))
+  (claim-details (string-utf8 500))
+)
+  (begin
+    (asserts! 
+      (is-some (map-get? did-registry { did: tx-sender })) 
+      ERR-NOT-FOUND
+    )
+    (map-set verification-claims
+      { 
+        did: tx-sender, 
+        claim-type: claim-type 
+      }
+      {
+        verified: true,
+        issuer: tx-sender,
+        timestamp: stacks-block-height,
+        claim-details: claim-details
+      }
+    )
+    (ok true)
+  )
+)
