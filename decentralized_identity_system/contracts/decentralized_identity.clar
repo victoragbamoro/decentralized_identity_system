@@ -7,6 +7,10 @@
 (define-constant ERR-INVALID-SIGNATURE (err u4))
 (define-constant ERR-MAX-CONNECTIONS (err u5))
 
+(define-constant ERR-INSUFFICIENT-REPUTATION (err u6))
+(define-constant ERR-CLAIM-ALREADY-EXISTS (err u7))
+(define-constant MAX-REPUTATION-SCORE u1000)
+
 ;; DID Registry Map
 (define-map did-registry 
   { did: principal }
@@ -179,3 +183,4 @@
     (ok true)
   )
 )
+
