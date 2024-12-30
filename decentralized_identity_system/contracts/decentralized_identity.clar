@@ -232,3 +232,29 @@
     (ok true)
   )
 )
+
+
+;; Achievement Tracking
+(define-public (log-achievement
+  (achievement-points uint)
+)
+  (let 
+    ((current-achievements 
+      (default-to 
+        { total-achievements: u0, achievement-points: u0 }
+        (map-get? did-achievements { did: tx-sender })
+      ))
+     (updated-achievements 
+      {
+        total-achievements: (+ (get total-achievements current-achievements) u1),
+        achievement-points: (+ (get achievement-points current-achievements) achievement-points)
+      }
+    ))
+    (map-set did-achievements 
+      { did: tx-sender }
+      updated-achievements
+    )
+    (try! (update-reputation-score achievement-points))
+    (ok true)
+  )
+)
