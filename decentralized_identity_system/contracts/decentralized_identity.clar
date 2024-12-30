@@ -258,3 +258,26 @@
     (ok true)
   )
 )
+
+;; Reputation Decay Mechanism
+(define-public (apply-reputation-decay)
+  (let 
+    ((current-did (unwrap! 
+      (map-get? did-registry { did: tx-sender }) 
+      ERR-NOT-FOUND
+    ))
+     (current-score (get reputation-score current-did))
+     (decayed-score 
+       (if (> current-score u10) 
+           (- current-score u10) 
+           u0
+       )
+    )
+  )
+    (map-set did-registry 
+      { did: tx-sender }
+      (merge current-did { reputation-score: decayed-score })
+    )
+    (ok decayed-score)
+  )
+)
