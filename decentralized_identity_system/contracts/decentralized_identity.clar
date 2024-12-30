@@ -204,3 +204,31 @@
     achievement-points: uint
   }
 )
+
+;; Badge System
+(define-public (earn-badge
+  (badge-type (string-ascii 50))
+  (badge-level uint)
+)
+  (let 
+    ((current-did (unwrap! 
+      (map-get? did-registry { did: tx-sender }) 
+      ERR-NOT-FOUND
+    ))
+     (current-reputation (get reputation-score current-did))
+    )
+    (asserts! (>= current-reputation (* badge-level u10)) ERR-INSUFFICIENT-REPUTATION)
+    
+    (map-set did-badges
+      { 
+        did: tx-sender, 
+        badge-type: badge-type 
+      }
+      {
+        earned-timestamp: stacks-block-height,
+        badge-level: badge-level
+      }
+    )
+    (ok true)
+  )
+)
