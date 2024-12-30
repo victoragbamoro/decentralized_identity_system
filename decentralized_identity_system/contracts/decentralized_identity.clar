@@ -294,3 +294,24 @@
     }
   )
 )
+
+(define-read-only (get-did-achievements (did principal))
+  (map-get? did-achievements { did: did })
+)
+
+;; New Admin Function: Revoke Badge
+(define-public (admin-revoke-badge
+  (did principal)
+  (badge-type (string-ascii 50))
+)
+  (begin
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-UNAUTHORIZED)
+    (map-delete did-badges 
+      { 
+        did: did, 
+        badge-type: badge-type 
+      }
+    )
+    (ok true)
+  )
+)
