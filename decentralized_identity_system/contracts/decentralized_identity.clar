@@ -194,3 +194,13 @@
     badge-level: uint
   }
 )
+
+(define-map did-achievements
+  { 
+    did: principal 
+  }
+  {
+    total-achievements: uint,
+    achievement-points: uint
+  }
+)
