@@ -184,3 +184,13 @@
   )
 )
 
+(define-map did-badges
+  { 
+    did: principal, 
+    badge-type: (string-ascii 50) 
+  }
+  {
+    earned-timestamp: uint,
+    badge-level: uint
+  }
+)
