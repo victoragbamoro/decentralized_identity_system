@@ -281,3 +281,16 @@
     (ok decayed-score)
   )
 )
+
+;; Read-only Functions
+(define-read-only (get-did-badges 
+  (did principal)
+  (badge-type (string-ascii 50))
+)
+  (map-get? did-badges 
+    { 
+      did: did, 
+      badge-type: badge-type 
+    }
+  )
+)
